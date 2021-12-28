@@ -1,0 +1,88 @@
+#include <stdio.h>
+#include <stdlib.h>
+//intialiser le tableau avec des points
+void initialisation(char *tab,int len){
+  int i;
+  for (i=0;i<len;i++){
+    *(tab+i)='.';
+  }
+}
+//afficher la totalite du tableu
+void affichage(char *tab){
+  printf("     1   2   3\n\n");
+  printf(" 1   %c   %c   %c\n\n",*tab,*(tab+1),*(tab+2));
+  printf(" 2   %c   %c   %c\n\n",*(tab+3),*(tab+4),*(tab+5));
+  printf(" 3   %c   %c   %c\n\n",*(tab+6),*(tab+7),*(tab+8));
+  printf("\n");
+}
+//Entrer la valeur de la ligne et colonne desirer par le joueur
+void RoleJ(int *ligne,int *colonne,char *tab){
+    do{
+      printf("ligne=");
+      scanf("%d",ligne);
+    }while (*ligne >3 || *ligne <1);
+    do{
+      printf("colonne=");
+      scanf("%d",colonne);
+    }while (*colonne >3 || *colonne <1);
+}
+//pour remplir les cases
+void Remplissage(char *tab,int ligne,int colonne,char symbole){
+  if (ligne==1){
+    tab[colonne-1]=symbole;// -1 parceque les indices du tableu commence a 0
+  }
+  else if(ligne==2){
+    tab[2+colonne]=symbole;// pour passer a la deuxieme ligne J'ai ajouter 2
+  }
+  else{
+    tab[5+colonne]=symbole;
+  }
+}
+//verifier si la case est vide ou non
+int Valid_case(char *tab,int ligne,int colonne){
+  if (ligne==1){
+    if (tab[colonne-1]=='X'||tab[colonne-1]=='O'){
+      return 0;
+    }
+  }
+  else if(ligne==2){
+    if (tab[2+colonne]=='X'||tab[2+colonne]=='O'){
+      return 0;
+    }
+  }
+  else{
+    if (tab[5+colonne]=='X' || tab[5+colonne]=='O'){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+int main(int argc,char*argv[]){
+  printf("*******************************************************\n \t\t\t Jeu X/O \n*******************************************************\n");
+  int len=9;
+  char tab[9];//allouer une case de memoire pour le jeu
+  initialisation(tab,len);
+  affichage(tab);
+  //Partie jeu
+  int Role=1;
+  int ligne=0 ;
+  int colonne=0;
+  while (Role<=len){
+    printf("Le Role du Premier Joueur (X) \n");
+    do{
+    RoleJ(&ligne,&colonne,tab);
+  }while (Valid_case(tab,ligne,colonne)!=1);
+    Remplissage(tab,ligne,colonne,'X');
+    affichage(tab);
+    Role++;
+    printf("Le Role du deuxieme Joueur (O) \n");
+    do{
+    RoleJ(&ligne,&colonne,tab);
+  }while (Valid_case(tab,ligne,colonne)!=1);
+    Remplissage(tab,ligne,colonne,'O');
+    affichage(tab);
+    Role++;
+  }
+  return 0;
+}
