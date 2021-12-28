@@ -58,10 +58,11 @@ int Valid_case(char *tab,int ligne,int colonne){
   return 1;
 }
 
+
 int main(int argc,char*argv[]){
   printf("*******************************************************\n \t\t\t Jeu X/O \n*******************************************************\n");
   int len=9;
-  char tab[9];//allouer une case de memoire pour le jeu
+  char *tab=malloc(len*sizeof(char));//allouer une case de memoire pour le jeu
   initialisation(tab,len);
   affichage(tab);
   //Partie jeu
